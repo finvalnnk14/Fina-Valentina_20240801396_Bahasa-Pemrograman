@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pemesanan Menu - NusaDine</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="menu-container">
+        <h2>🌟 Selamat Datang, {{ username }} 🌟</h2>
+        <a href="{{ url_for('logout') }}" class="logout">Logout</a>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash">{{ messages[0] }}</div>
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+    <label for="menu_index">Pilih Menu:</label>
+    <select name="menu_index" required>
+        {% for item in menu_list %}
+            <option value="{{ loop.index0 }}">{{ item[0] }} - Rp{{ "{:,}".format(item[1]) }}</option>
+        {% endfor %}
+    </select>
+
+    <label>Jumlah:</label>
+    <input type="number" name="jumlah" min="1" required>
+
+    <button type="submit">Pesan Menu</button>
+</form>
+
+
+        <div class="pesanan">
+            <h3>🧾 Struk Pemesanan</h3>
+            <ul>
+                {% for item in pesanan %}
+                    <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+            <strong>Total Bayar: Rp{{ "{:,}".format(total) }}</strong>
+        </div>
+    </div>
+</body>
+</html>
